@@ -1,0 +1,24 @@
+{
+    "name": "ademes/core",
+    "description": "",
+    "authors": [
+        {
+            "name": "Huajun Li",
+            "email": "lhj1982@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Ademes\\Core\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
