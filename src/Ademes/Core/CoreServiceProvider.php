@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Ademes\Core\Auth\AuthClient as AuthClient;
+use Ademes\Core\User\UserClient as UserClient;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -32,6 +33,11 @@ class CoreServiceProvider extends ServiceProvider {
 		$this->app['authClient'] = $this->app->share(function($app)
                 {
                     return new AuthClient;
+                });
+                
+                $this->app['userClient'] = $this->app->share(function($app)
+                {
+                    return new UserClient;
                 });
 	}
 

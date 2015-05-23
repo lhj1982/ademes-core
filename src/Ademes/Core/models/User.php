@@ -10,6 +10,7 @@ class User {
     private $id;
     private $email;
     private $name;
+    private $uid;
     
     function getId() {
         return $this->id;
@@ -34,6 +35,14 @@ class User {
     function setName($name) {
         $this->name = $name;
     }
+    function getUid() {
+        return $this->uid;
+    }
+
+    function setUid($uid) {
+        $this->uid = $uid;
+    }
+
 
 
 }
