@@ -1,10 +1,7 @@
 {
-<<<<<<< HEAD
     "name": "ademes/core",
-=======
-    "name": "ademes/auth-client",
->>>>>>> e1e3379dd87df4db1b70696cdde03066b873cd70
     "description": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Huajun Li",
@@ -13,23 +10,15 @@
     ],
     "require": {
         "php": ">=5.4.0",
-<<<<<<< HEAD
         "illuminate/support": "4.2.*",
         "guzzlehttp/guzzle": "~5.0"
-=======
-        "illuminate/support": "4.2.*"
->>>>>>> e1e3379dd87df4db1b70696cdde03066b873cd70
     },
     "autoload": {
         "classmap": [
             "src/migrations"
         ],
         "psr-0": {
-<<<<<<< HEAD
             "Ademes\\Core\\": "src/"
-=======
-            "Ademes\\AuthClient\\": "src/"
->>>>>>> e1e3379dd87df4db1b70696cdde03066b873cd70
         }
     },
     "minimum-stability": "stable"
