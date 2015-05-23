@@ -7,5 +7,5 @@
  */
 
 return array(
-    'base_url' => 'http://api.nordic.localhost'
+    'base_url' => 'http://vdragon-api.dev'
 );

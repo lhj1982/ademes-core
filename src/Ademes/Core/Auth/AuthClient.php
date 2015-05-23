@@ -9,6 +9,13 @@ use Ademes\Core\models\AuthResponse as AuthResponse;
  */
 class AuthClient {
     
+    private $client;
+    
+    public function __construct() {
+        $base_url = \Config::get('core::core.base_url');
+        $this->client = new \GuzzleHttp\Client(['base_url'=>$base_url]);
+    }
+    
     /**
      * 
      * @param type $username
@@ -18,8 +25,7 @@ class AuthClient {
      * @return string access token if authenticated, otherwise, return false
      */
     public function authenticate($username, $password, $client_id, $secret) {
-        $base_url = \Config::get('core::core.base_url');
-        $client = new \GuzzleHttp\Client(['base_url'=>$base_url]);
+        
         $data = [
             'body'=> ['grant_type' => 'password',
                 'client_id' => $client_id,
@@ -28,7 +34,7 @@ class AuthClient {
                 'password' => $password]
         ];
         try {
-            $res = $client->post('oauth/access_token', $data)->json();
+            $res = $this->client->post('oauth/access_token', $data)->json();
         } catch (\Exception $exception) {
             \Log::error($exception);
             return false;
@@ -37,12 +43,19 @@ class AuthClient {
         $response->setAccessToken($res['access_token']);
         $response->setRefreshToken($res['refresh_token']);
         
-        
-        
+        $user = $this->findUserByToken($res['access_token']);
+        if (!empty($user) && array_key_exists('success_code', $user)) {
+            $response->setUserReference($user['data']['uid']);
+        }
         return $response;
     }
     
     private function findUserByToken($access_token) {
-        
+        try {
+            return $this->client->get('v1/user', ['query'=>['access_token'=>$access_token]])->json();
+        } catch (\Exception $exception) {
+            \Log::error($exception);
+            return false;
+        }
     }
 }
