@@ -15,6 +15,22 @@ class Client {
         $this->client = new \GuzzleHttp\Client(['base_url'=>$base_url]);
     }
 
+    public function get($uri, array $option=null) {
+    	return $this->client->get($uri, $option);
+    }
+
+    public function post($uri, array $option=null) {
+    	return $this->client->get($uri, $option);
+    }
+
+    public function put($uri, array $option=null) {
+    	return $this->client->get($uri, $option);
+    }
+
+    public function delete($uri, array $option=null) {
+    	return $this->client->get($uri, $option);
+    }
+
     public function postFile($field_name, $content)
     {
         return new PostFile($field_name, $content);
