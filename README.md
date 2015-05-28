@@ -51,3 +51,57 @@ if ($user) {
     Session::put('data.user', $user);
 }
 ```
+
+### Http Client
+
+Use this class for all request to api services.
+
+Client has 3 methods:
+1. GET
+2. POST
+3. DELETE
+Due to limitation of Laravel 4, to be able to make PUT, PATCH request, we have to sende '_method'=>'PUT'/'PATCH' in message body.
+
+
+#### Request Examples
+1. GET
+```
+$query = $this->http->get($_ENV['API_VERSION'].'/companies', [
+    'query' => [
+        'access_token' => Session::get('AuthToken')->getAccessToken()
+    ]
+]);
+```
+2. POST
+```
+$data = [
+    'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+    'body' => [
+        'name' => Input::get('name'),
+        'description' => Input::get('description'),
+        'url' => Input::get('url'),
+        'photo' => fopen($path, 'r'),
+        'access_token' => Session::get('AuthToken')->getAccessToken()
+    ]
+];
+$response = $this->http->post($_ENV['API_VERSION'] . '/companies', $data);
+```
+3. DELETE
+```
+$body = ['access_token'=>Session::get('AuthToken')->getAccessToken()];
+$response = $this->http->delete($_ENV['API_VERSION'] . '/companies/' . $id, ['body'=>$body]);
+```
+4. PUT
+```
+$data = [
+    'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+    'body' => [
+        '_method' => 'PUT',
+        'name' => Input::get('name'),
+        'description' => Input::get('description'),
+        'url' => Input::get('url'),
+        'access_token' => Session::get('AuthToken')->getAccessToken()
+    ]
+];
+$response = $this->http->post($_ENV['API_VERSION'] . '/companies/'.$id, $data);
+```

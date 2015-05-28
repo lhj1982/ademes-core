@@ -36,6 +36,16 @@ class Client {
     		throw new RequestException($exception->getMessage());
     	}
     }
+    
+    public function delete($uri, array $option=null) {
+    	try {
+    		return $this->client->delete($uri, $option);
+    	} catch (GuzzleHttp\Exception\ClientException $exception) {
+    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
+    	} catch (GuzzleHttp\Exception\RequestException $exception) {
+    		throw new RequestException($exception->getMessage());
+    	}
+    }
 
     public function postFile($field_name, $content)
     {
