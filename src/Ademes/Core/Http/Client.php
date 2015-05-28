@@ -6,9 +6,11 @@ namespace Ademes\Core\Http;
  * and open the template in the editor.
  */
 use GuzzleHttp\Post\PostFile;
+use Ademes\Core\Exception\ClientException as ClientException;
+use Ademes\Core\Exception\RequestException as RequestException;
 class Client {
 
-    public $client;
+    private $client;
 
     public function __construct() {
         $base_url = \Config::get('core::core.base_url');
@@ -16,19 +18,23 @@ class Client {
     }
 
     public function get($uri, array $option=null) {
-    	return $this->client->get($uri, $option);
+    	try {
+    		return $this->client->get($uri, $option);
+    	} catch (GuzzleHttp\Exception\ClientException $exception) {
+    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
+    	} catch (GuzzleHttp\Exception\RequestException $exception) {
+    		throw new RequestException($exception->getMessage());
+    	}
     }
 
     public function post($uri, array $option=null) {
-    	return $this->client->get($uri, $option);
-    }
-
-    public function put($uri, array $option=null) {
-    	return $this->client->get($uri, $option);
-    }
-
-    public function delete($uri, array $option=null) {
-    	return $this->client->get($uri, $option);
+    	try {
+    		return $this->client->post($uri, $option);
+    	} catch (GuzzleHttp\Exception\ClientException $exception) {
+    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
+    	} catch (GuzzleHttp\Exception\RequestException $exception) {
+    		throw new RequestException($exception->getMessage());
+    	}
     }
 
     public function postFile($field_name, $content)
