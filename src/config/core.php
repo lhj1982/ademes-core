@@ -7,5 +7,14 @@
  */
 
 return array(
-    'base_url' => 'http://vdragon-api.dev'
+    'base_url' => 'http://vdragon-api.dev',
+    'solr' => array(
+        'endpoint' => array(
+            'localhost' => array(
+                'host' => 'localhost',
+                'port' => 8080,
+                'path' => '/solr/heyidlebooks/',
+            )
+        )
+    )
 );

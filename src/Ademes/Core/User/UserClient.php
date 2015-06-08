@@ -7,7 +7,7 @@ use Ademes\Core\models\User as User;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-class UserClient {
+class UserClient extends \Ademes\Core\Http\Client {
     
     private $client;
     
