@@ -33,9 +33,7 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
 
     public function search($keywords, $filter=null, $sortBy=null, $limit = 10) {
         try {
-            $result = $this->_findInIndex($keywords);
-            
-            var_dump($result);
+            return $this->_findInIndex($keywords);
         } catch (Solarium\Exception $e) {
             throw new \Ademes\Core\Exception\SolrException('500', $e->getMessage());
         }
