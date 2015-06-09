@@ -12,7 +12,7 @@
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
         "guzzlehttp/guzzle": "~5.0",
-        "solarium/solarium": "dev-develop"
+        "solarium/solarium": "3.3.0"
     },
     "autoload": {
         "classmap": [
