@@ -11,9 +11,9 @@ return array(
     'solr' => array(
         'endpoint' => array(
             'localhost' => array(
-                'host' => 'localhost',
+                'host' => 'api.vdragon.local',
                 'port' => 8080,
-                'path' => '/solr/heyidlebooks/',
+                'path' => '/solr/',
             )
         )
     )

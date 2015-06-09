@@ -21,4 +21,5 @@ interface SolariumClient {
     
     public function reindex();
     
+    public function ping();
 }
