@@ -6,7 +6,8 @@ namespace Ademes\Core\models\Solr;
  * and open the template in the editor.
  */
 
-class SearchResult {
+class SearchResult implements \Illuminate\Support\Contracts\ArrayableInterface {
+    
     private $page;
     private $limit;
     private $totalItems; 
@@ -53,5 +54,15 @@ class SearchResult {
         $this->itemType = $itemType;
     }
 
+    function toArray() {
+        $arr = [
+            'page' => $this->page,
+            'limit' => $this->limit,
+            'totalItems' => json_decode(json_encode($this->totalItems), true),
+            'items' => json_decode(json_encode($this->items), true),
+            'itemType' => $this->itemType
+        ];
+        return $arr;
+    }
 
 }
