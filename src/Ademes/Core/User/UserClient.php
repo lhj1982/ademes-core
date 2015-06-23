@@ -18,7 +18,7 @@ class UserClient extends \Ademes\Core\Http\Client {
     
     public function getLoggedInUser($access_token) {
         try {
-            $res = $this->client->get('v1/user', ['query'=>['access_token'=>$access_token]])->json();
+            $res = $this->client->get('v1/user/token/' . $access_token)->json();
             if (!empty($res) && array_key_exists('success_code', $res)) {
                 $user = new User;
                 $user->setId($res['data']['id']);
