@@ -100,11 +100,14 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
         $resultSet = $this->client->select($query);
         $index = 0;
         foreach ($resultSet as $result) {
-
             $klass = new \StdClass;
             $klass->id = $result->id;
             $klass->name = $result->name;
             $klass->description = $result->description;
+            $klass->min_investment = $result->description;
+            $klass->max_investment = $result->max_investment;
+            $klass->address = $result->address;
+            $klass->tags = $result->tags;
             $ret[$index++] = $klass;
         }
 
