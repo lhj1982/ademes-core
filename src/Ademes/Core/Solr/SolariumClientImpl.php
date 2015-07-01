@@ -104,7 +104,7 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
             $klass->id = $result->id;
             $klass->name = $result->name;
             $klass->description = $result->description;
-            $klass->min_investment = $result->description;
+            $klass->min_investment = $result->min_investment;
             $klass->max_investment = $result->max_investment;
             $klass->address = $result->address;
             $klass->tags = $result->tags;
