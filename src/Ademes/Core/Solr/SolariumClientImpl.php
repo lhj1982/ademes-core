@@ -33,7 +33,7 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
 
     public function search($keywords, $filter=null, $sortBy=null, $limit = 10) {
         try {
-            return $this->_findInIndex($keywords);
+            return $this->_findInIndex($keywords, $filter);
         } catch (Solarium\Exception $e) {
             throw new \Ademes\Core\Exception\SolrException('500', $e->getMessage());
         }
@@ -91,9 +91,30 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
                     'query' => 'categories:'.$filter['categories'],
                     ));
             }
+            
+            if(!empty($filter['min']) && !empty($filter['max'])) {
+                $query->addFilterQuery(array(
+                    'key'=> 'fq2',
+                    'query' => 'min_investment: ['.($filter['min']*10000).' TO *]'
+                ));
+                $query->addFilterQuery(array(
+                    'key'=> 'fq3',
+                    'query' => 'max_investment: [* TO '.($filter['max']*10000).']'
+                ));
+            } elseif(!empty($filter['min']) && empty($filter['max'])) {
+                \Log::info($filter['min']*10000);
+                $query->addFilterQuery(array(
+                    'key'=> 'fq2',
+                    'query' => 'min_investment: ['.($filter['min']*10000).' TO *]'
+                ));
+            } elseif(empty($filter['min']) && !empty($filter['max'])) {
+                $query->addFilterQuery(array(
+                    'key'=> 'fq3',
+                    'query' => 'max_investment: [* TO '.($filter['max']*10000).']'
+                ));
+            }
         }
         $query->setRows($limit);
-
         //:['' TO *]
         //
         // *:* is equivalent to telling solr to return all docs
@@ -108,6 +129,11 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
             $klass->max_investment = $result->max_investment;
             $klass->address = $result->address;
             $klass->tags = $result->tags;
+            $klass->categories = $result->categories;
+            $klass->url = $result->url;
+            $klass->contact_name = $result->contact_name;
+            $klass->contact_email = $result->contact_email;
+            $klass->contact_phone = $result->contact_phone;
             $ret[$index++] = $klass;
         }
 
