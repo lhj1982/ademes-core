@@ -83,12 +83,12 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
         }
         if (!empty($filter))
         {
-            if (!empty($filter['categories']))
+            if (!empty($filter['categoryNames']))
             {
                 $query->addFilterQuery(array(
                     'key' => 'fq4',
                     // 'tag' => array('populationLimit'),
-                    'query' => 'categories:'.$filter['categories'],
+                    'query' => 'categories:'.$filter['categoryNames'],
                     ));
             }
             
@@ -102,7 +102,6 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
                     'query' => 'max_investment: [* TO '.($filter['max']*10000).']'
                 ));
             } elseif(!empty($filter['min']) && empty($filter['max'])) {
-                \Log::info($filter['min']*10000);
                 $query->addFilterQuery(array(
                     'key'=> 'fq2',
                     'query' => 'min_investment: ['.($filter['min']*10000).' TO *]'
