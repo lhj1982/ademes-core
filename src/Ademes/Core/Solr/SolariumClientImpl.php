@@ -88,7 +88,7 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
                 $query->addFilterQuery(array(
                     'key' => 'fq4',
                     // 'tag' => array('populationLimit'),
-                    'query' => 'categories:'.$filter['categoryNames'],
+                    'query' => 'categories:'.implode(' ',$filter['categoryNames']),
                     ));
             }
             
