@@ -9,6 +9,7 @@ use Ademes\Core\models\Solr\SearchResult as SearchResult;
  */
 class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
     
+    private $base_url;
     /**
      * @var The SOLR client.
      */
@@ -19,6 +20,7 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
      **/
     public function __construct()
     {
+        $this->base_url = \Config::get('core::core.base_url');
         // create a client instance      
         $this->client = new \Solarium\Client(\Config::get('core::core.solr'));
     }
@@ -127,12 +129,23 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
             $klass->min_investment = $result->min_investment;
             $klass->max_investment = $result->max_investment;
             $klass->address = $result->address;
-            $klass->tags = $result->tags;
-            $klass->categories = $result->categories;
+            $klass->tags = $this->_getTagsOrCategories($result->tags);
+            $klass->categories = $this->_getTagsOrCategories($result->categories);
             $klass->url = $result->url;
             $klass->contact_name = $result->contact_name;
             $klass->contact_email = $result->contact_email;
             $klass->contact_phone = $result->contact_phone;
+            if (isset($result->big_image_url)) {
+                $klass->big_image_url = $this->base_url.'/images/items/'.$result->big_image_url;
+            }
+            if (isset($result->medium_image_url)) {
+                $klass->medium_image_url = $this->base_url.'/images/items/'.$result->medium_image_url;
+            }
+            if (isset($result->small_image_url)) {
+                $klass->small_image_url = $this->base_url.'/images/items/'.$result->small_image_url;
+            }
+            $klass->company = $this->_getCompany($result->companyId, $result->companyName, $result->companyBigImageUrl, $result->companyMediumImageUrl, $result->companySmallImageUrl);
+            $klass->territory = $this->_getTerritory($result->territoryId, $result->territoryName, $result->countryId, $result->countryName);
             $ret[$index++] = $klass;
         }
 
@@ -168,6 +181,46 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
             $finalRet->setItems($items);
         }
         return $finalRet;
+    }
+    
+    private function _getTagsOrCategories($tags) {
+        if (!isset($tags) || !is_array($tags)) {
+            return null;
+        }
+        $ret = [];
+        foreach ($tags as $tag) {
+            $obj = new \stdClass();
+            $obj->name = $tag;
+            array_push($ret, $obj);
+        }
+        return $ret;
+    }
+    
+    private function _getCompany($companyId, $companyNmae, $companyBigImageUrl, $companyMediumImageUrl, $companySmallImageUrl) {
+        $obj = new \stdClass();
+        $obj->id = $companyId;
+        $obj->name = $companyNmae;
+        if (isset($companyBigImageUrl)) {
+            $obj->big_image_url = $this->base_url.'/images/companies/'.$companyBigImageUrl;
+        }
+        if (isset($companyBigImageUrl)) {
+            $obj->medium_image_url = $this->base_url.'/images/companies/'.$companyMediumImageUrl;
+        }
+        if (isset($companyBigImageUrl)) {
+            $obj->small_image_url = $this->base_url.'/images/companies/'.$companySmallImageUrl;
+        }
+        return $obj;
+    }
+    
+    private function _getTerritory($territoryId, $territoryName, $countryId, $countryName) {
+        $country = new \stdClass();
+        $country->id=$countryId;
+        $country->name = $countryName;
+        $obj = new \stdClass();
+        $obj->id = $territoryId;
+        $obj->name = $territoryName;
+        $obj->country = $country;
+        return $obj;
     }
 
 }
