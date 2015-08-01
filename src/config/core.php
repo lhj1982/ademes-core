@@ -16,5 +16,17 @@ return array(
                 'path' => '/solr/',
             )
         )
-    )
+    ),
+    'defaults' => [
+        'image_base_url' => [
+            'company' => '/images/companies/',
+            'item' => '/images/items/',
+            'user' => '/images/users/'
+        ],
+        'image' => [
+            'company' => 'default.png',
+            'item' => 'default.png',
+            'user' => 'default.png'
+        ]
+    ]
 );

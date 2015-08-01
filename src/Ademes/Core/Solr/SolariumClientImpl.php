@@ -136,13 +136,19 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
             $klass->contact_email = $result->contact_email;
             $klass->contact_phone = $result->contact_phone;
             if (isset($result->big_image_url)) {
-                $klass->big_image_url = $this->base_url.'/images/items/'.$result->big_image_url;
+                $klass->big_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').$result->big_image_url;
+            } else {
+                $klass->big_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').\Config::get('core::core.defaults.image.item');
             }
             if (isset($result->medium_image_url)) {
-                $klass->medium_image_url = $this->base_url.'/images/items/'.$result->medium_image_url;
+                $klass->medium_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').$result->medium_image_url;
+            } else {
+                $klass->medium_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').\Config::get('core::core.defaults.image.item');
             }
             if (isset($result->small_image_url)) {
-                $klass->small_image_url = $this->base_url.'/images/items/'.$result->small_image_url;
+                $klass->small_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').$result->small_image_url;
+            } else {
+                $klass->small_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.item').\Config::get('core::core.defaults.image.item');
             }
             $klass->company = $this->_getCompany($result->companyId, $result->companyName, $result->companyBigImageUrl, $result->companyMediumImageUrl, $result->companySmallImageUrl);
             $klass->territory = $this->_getTerritory($result->territoryId, $result->territoryName, $result->countryId, $result->countryName);
@@ -201,13 +207,19 @@ class SolariumClientImpl implements \Ademes\Core\Solr\SolariumClient {
         $obj->id = $companyId;
         $obj->name = $companyNmae;
         if (isset($companyBigImageUrl)) {
-            $obj->big_image_url = $this->base_url.'/images/companies/'.$companyBigImageUrl;
+            $obj->big_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').$companyBigImageUrl;
+        } else {
+            $obj->big_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').\Config::get('core::core.defaults.image.company');
         }
         if (isset($companyBigImageUrl)) {
-            $obj->medium_image_url = $this->base_url.'/images/companies/'.$companyMediumImageUrl;
+            $obj->medium_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').$companyMediumImageUrl;
+        } else {
+            $obj->medium_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').\Config::get('core::core.defaults.image.company');
         }
         if (isset($companyBigImageUrl)) {
-            $obj->small_image_url = $this->base_url.'/images/companies/'.$companySmallImageUrl;
+            $obj->small_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').$companySmallImageUrl;
+        } else {
+            $obj->small_image_url = $this->base_url.\Config::get('core::core.defaults.image_base_url.company').\Config::get('core::core.defaults.image.company');
         }
         return $obj;
     }
