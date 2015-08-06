@@ -1,6 +1,6 @@
 {
     "name": "ademes/core",
-    "description": "",
+    "description": "Ademes core service, developed by laravel 4",
     "license": "MIT",
     "authors": [
         {

@@ -1,3 +1,5 @@
+# Ademes Core Laravel 4 supported
+
 # Ademes Core modules
 Should include all core modules and functions for different applications
 
