@@ -1,6 +1,7 @@
 {
     "name": "ademes/core",
     "description": "Ademes core service, developed by laravel 5.1",
+    "version": "2.0.0-dev",
     "license": "MIT",
     "authors": [
         {
@@ -23,7 +24,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.0.0-dev"
         }
     },
     "minimum-stability": "stable"
