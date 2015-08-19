@@ -22,10 +22,10 @@ class AuthClient {
      * @param type $password
      * @param type $client_id
      * @param type $secret
+     * @param type $loginAs user|admin
      * @return string access token if authenticated, otherwise, return false
      */
-    public function authenticate($username, $password, $client_id, $secret) {
-        
+    public function authenticate($username, $password, $client_id, $secret, $loginAs=[]) {
         $data = [
             'body'=> ['grant_type' => 'password',
                 'client_id' => $client_id,
@@ -39,6 +39,8 @@ class AuthClient {
             \Log::error($exception);
             return false;
         }
+        
+        $user = $this->findUserByToken($res['access_token']);
         $response = new AuthResponse();
         $response->setAccessToken($res['access_token']);
         $response->setRefreshToken($res['refresh_token']);
@@ -47,6 +49,13 @@ class AuthClient {
         if (!empty($user) && array_key_exists('success_code', $user)) {
             $response->setUserReference($user['data']['uid']);
         }
+        
+        if (!empty($loginAs)) {
+            if (!in_array($loginAs[0], $user['data']['roles'])) {
+                return false;
+            }
+        }
+        
         return $response;
     }
     

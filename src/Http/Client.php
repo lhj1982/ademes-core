@@ -6,6 +6,8 @@ namespace Ademes\Core\Http;
  * and open the template in the editor.
  */
 use GuzzleHttp\Post\PostFile;
+use GuzzleHttp\Exception\ClientException as GuzzleHttpClientException;
+use GuzzleHttp\Exception\RequestException as GuzzleHttpRequestException;
 use Ademes\Core\Exception\ClientException as ClientException;
 use Ademes\Core\Exception\RequestException as RequestException;
 class Client {
@@ -18,33 +20,33 @@ class Client {
     }
 
     public function get($uri, array $option=null) {
-    	try {
-    		return $this->client->get($uri, $option);
-    	} catch (GuzzleHttp\Exception\ClientException $exception) {
-    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
-    	} catch (GuzzleHttp\Exception\RequestException $exception) {
-    		throw new RequestException($exception->getMessage());
-    	}
+        try {
+            return $this->client->get($uri, $option);
+        } catch (GuzzleHttpClientException $exception) {
+            throw new ClientException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        } catch (GuzzleHttpRequestException $exception) {
+            throw new RequestException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        }
     }
 
     public function post($uri, array $option=null) {
-    	try {
-    		return $this->client->post($uri, $option);
-    	} catch (GuzzleHttp\Exception\ClientException $exception) {
-    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
-    	} catch (GuzzleHttp\Exception\RequestException $exception) {
-    		throw new RequestException($exception->getMessage());
-    	}
+        try {
+            return $this->client->post($uri, $option);
+        } catch (GuzzleHttpClientException $exception) {
+            throw new ClientException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        } catch (GuzzleHttpRequestException $exception) {
+            throw new RequestException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        }
     }
     
     public function delete($uri, array $option=null) {
-    	try {
-    		return $this->client->delete($uri, $option);
-    	} catch (GuzzleHttp\Exception\ClientException $exception) {
-    		throw new ClientException($exception->getStatusCode(), $exception->getMessage());
-    	} catch (GuzzleHttp\Exception\RequestException $exception) {
-    		throw new RequestException($exception->getMessage());
-    	}
+        try {
+            return $this->client->delete($uri, $option);
+        } catch (GuzzleHttpClientException $exception) {
+            throw new ClientException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        } catch (GuzzleHttpRequestException $exception) {
+            throw new RequestException($exception->getResponse()->getStatusCode(), $exception->getMessage());
+        }
     }
 
     public function postFile($field_name, $content)
