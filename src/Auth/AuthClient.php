@@ -59,8 +59,38 @@ class AuthClient {
         return $response;
     }
     
-    public function authenticate($type='social_network', $token, $provider='facebook', $client_id, $secret) {
-
+    public function authenticate_social($token, $provider='facebook', $client_id, $secret) {
+        $data = [
+            'body'=> ['grant_type' => 'social_network',
+                'client_id' => $client_id,
+                'client_secret' => $secret,
+                'provider' => $provider,
+                'token' => $token]
+        ];
+        try {
+            $res = $this->client->post('oauth/access_token', $data)->json();
+        } catch (\Exception $exception) {
+            \Log::error($exception);
+            return false;
+        }
+        
+        $user = $this->findUserByToken($res['access_token']);
+        $response = new AuthResponse();
+        $response->setAccessToken($res['access_token']);
+        $response->setRefreshToken($res['refresh_token']);
+        
+        $user = $this->findUserByToken($res['access_token']);
+        if (!empty($user) && array_key_exists('success_code', $user)) {
+            $response->setUserReference($user['data']['uid']);
+        }
+        
+        if (!empty($loginAs)) {
+            if (!in_array($loginAs[0], $user['data']['roles'])) {
+                return false;
+            }
+        }
+        
+        return $response;
     }
 
     private function findUserByToken($access_token) {
