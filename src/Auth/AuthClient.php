@@ -59,6 +59,10 @@ class AuthClient {
         return $response;
     }
     
+    public function authenticate($type='social_network', $token, $provider='facebook', $client_id, $secret) {
+
+    }
+
     private function findUserByToken($access_token) {
         try {
             return $this->client->get('v1/user', ['query'=>['access_token'=>$access_token]])->json();
