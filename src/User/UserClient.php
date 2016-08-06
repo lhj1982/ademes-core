@@ -25,6 +25,7 @@ class UserClient extends \Ademes\Core\Http\Client {
                 $user->setName($res['data']['name']);
                 $user->setEmail($res['data']['email']);
                 $user->setUid($res['data']['uid']);
+                $user->setRoles($res['data']['roles']);
                 return $user;
             }
             

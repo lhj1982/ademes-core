@@ -11,6 +11,7 @@ class User {
     private $email;
     private $name;
     private $uid;
+    private $roles;
     
     function getId() {
         return $this->id;
@@ -42,7 +43,11 @@ class User {
     function setUid($uid) {
         $this->uid = $uid;
     }
+    function getRoles() {
+        return $this->roles;
+    }
 
-
-
+    function setRoles($roles) {
+        $this->roles = $roles;
+    }
 }
