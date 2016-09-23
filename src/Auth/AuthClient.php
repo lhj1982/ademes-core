@@ -25,7 +25,7 @@ class AuthClient {
      * @param type $loginAs user|admin
      * @return string access token if authenticated, otherwise, return false
      */
-    public function authenticate($username, $password, $client_id, $secret, $loginAs=[]) {
+    public function authenticate($username, $password, $client_id, $secret, $loginAs=[], $extras=[]) {
         $data = [
             'body'=> ['grant_type' => 'password',
                 'client_id' => $client_id,
@@ -33,6 +33,11 @@ class AuthClient {
                 'username' => $username,
                 'password' => $password]
         ];
+
+        if(!empty($extras) && is_array($extras)) {
+            $data['body'] = array_merge($data['body'], $extras);
+        }
+
         try {
             $res = $this->client->post('oauth/access_token', $data)->json();
         } catch (\Exception $exception) {
@@ -59,7 +64,7 @@ class AuthClient {
         return $response;
     }
     
-    public function authenticate_social($token, $provider='facebook', $client_id, $secret) {
+    public function authenticate_social($token, $provider='facebook', $client_id, $secret, $extras=[]) {
         $data = [
             'body'=> ['grant_type' => 'social_network',
                 'client_id' => $client_id,
@@ -67,6 +72,11 @@ class AuthClient {
                 'provider' => $provider,
                 'token' => $token]
         ];
+
+        if(!empty($extras) && is_array($extras)) {
+            $data['body'] = array_merge($data['body'], $extras);
+        }
+
         try {
             $res = $this->client->post('oauth/access_token', $data)->json();
         } catch (\Exception $exception) {
